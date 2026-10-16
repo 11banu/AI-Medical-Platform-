@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Diabetes Risk Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fc;
+            color: #1f2937;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f4c81, #1677b8);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #123b5d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1677b8;
+        }
+
+        .button-area {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            background: #1677b8;
+            color: white;
+            padding: 13px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0f4c81;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            background: #eef7ff;
+            text-align: center;
+        }
+
+        .result h2 {
+            margin-bottom: 15px;
+        }
+
+        .probability {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1677b8;
+            margin: 10px 0;
+        }
+
+        .risk {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff8e1;
+            border-left: 5px solid #e0a800;
+            border-radius: 8px;
+            line-height: 1.6;
+            color: #665200;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #1677b8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: #123b5d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>🩺 AI Diabetes Risk Assessment</h1>
+        <p>Machine Learning Based Health Risk Estimation</p>
+    </header>
+
+    <main class="container">
+
+        <div class="card">
+
+            <h2>Enter Health Information</h2>
+
+            <form method="POST">
+
+                <div class="form-grid">
+
+                    <div>
+                        <label>Pregnancies</label>
+                        <input type="number" name="pregnancies" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Glucose</label>
+                        <input type="number" name="glucose" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Blood Pressure</label>
+                        <input type="number" name="blood_pressure" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Skin Thickness</label>
+                        <input type="number" name="skin_thickness" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Insulin</label>
+                        <input type="number" name="insulin" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>BMI</label>
+                        <input type="number" name="bmi" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Diabetes Pedigree Function</label>
+                        <input type="number" name="diabetes_pedigree" step="any" required>
+                    </div>
+
+                    <div>
+                        <label>Age</label>
+                        <input type="number" name="age" step="any" required>
+                    </div>
+
+                </div>
+
+                <div class="button-area">
+                    <button type="submit">Analyze Diabetes Risk</button>
+                </div>
+
+            </form>
+
+            {% if result %}
+
+            <div class="result">
+
+                <h2>AI Risk Assessment</h2>
+
+                <div class="probability">
+                    {{ result }}
+                </div>
+
+                <div class="risk">
+                    Risk Level: {{ result.risk }}
+                </div>
+
+                {% if result.prediction == 1 %}
+                    <p>The model indicates a higher predicted risk.</p>
+                {% else %}
+                    <p>The model indicates a lower predicted risk.</p>
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+            <div class="note">
+                <strong>⚠️ Medical Disclaimer:</strong>
+                This result is an AI-based risk estimate for educational
+                and decision-support purposes. It is not a medical diagnosis
+                and should not replace evaluation by a qualified healthcare
+                professional.
+            </div>
+
+            <a href="/" class="back">← Back to AI Medical Platform</a>
+
+        </div>
+
+    </main>
+
+    <footer>
+        AI Medical Platform • Diabetes Risk Assessment
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+</head>
+
+<body>
+
+    <h1>Heart Disease Prediction</h1>
+
+    <form action="/heart" method="POST">
+
+        <label>Age:</label>
+        <input type="number" name="age" required>
+        <br><br>
+
+        <label>Sex:</label>
+        <input type="number" name="sex" required>
+        <br><br>
+
+        <label>Chest Pain Type (cp):</label>
+        <input type="number" name="cp" required>
+        <br><br>
+
+        <label>Resting Blood Pressure:</label>
+        <input type="number" name="trestbps" required>
+        <br><br>
+
+        <label>Cholesterol:</label>
+        <input type="number" name="chol" required>
+        <br><br>
+
+        <label>Fasting Blood Sugar (fbs):</label>
+        <input type="number" name="fbs" required>
+        <br><br>
+
+        <label>Resting ECG (restecg):</label>
+        <input type="number" name="restecg" required>
+        <br><br>
+
+        <label>Maximum Heart Rate (thalach):</label>
+        <input type="number" name="thalach" required>
+        <br><br>
+
+        <label>Exercise Induced Angina (exang):</label>
+        <input type="number" name="exang" required>
+        <br><br>
+
+        <label>ST Depression (oldpeak):</label>
+        <input type="number" step="0.1" name="oldpeak" required>
+        <br><br>
+
+        <label>Slope:</label>
+        <input type="number" name="slope" required>
+        <br><br>
+
+        <label>Number of Major Vessels (ca):</label>
+        <input type="number" name="ca" required>
+        <br><br>
+
+        <label>Thalassemia (thal):</label>
+        <input type="number" name="thal" required>
+        <br><br>
+
+        <button type="submit">Predict Heart Disease</button>
+
+    </form>
+
+
+    {% if prediction %}
+        <h2>Prediction: {{ prediction }}</h2>
+    {% endif %}
+
+    {% if confidence %}
+        <h3>Confidence: {{ confidence }}%</h3>
+    {% endif %}
+
+
+    <br>
+
+    <a href="/">← Back to AI Medical Platform</a>
+
+    <hr>
+
+    <p>
+        <strong>Disclaimer:</strong>
+        This prediction is for educational and demonstration purposes only.
+        It should not be considered a medical diagnosis.
+    </p>
+
+</body>
+</html>

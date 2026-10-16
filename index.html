@@ -3,44 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Medical Image Classifier</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AI Medical Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fc;
+            color: #1f2937;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f4c81, #1677b8);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+            color: #123b5d;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #64748b;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 23px;
+            color: #123b5d;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #1677b8;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #0f4c81;
+        }
+
+        .disclaimer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff8e1;
+            border-left: 5px solid #e0a800;
+            border-radius: 8px;
+            color: #665200;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 50px;
+            background: #123b5d;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media (max-width: 750px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <section class="hero">
+        <h1>🩺 AI Medical Platform</h1>
+        <p>Machine Learning Based Health Risk Assessment & Medical Image Analysis</p>
+    </section>
 
-    <h1>🩺 AI Medical Image Classifier</h1>
+    <main class="container">
 
-    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <div class="section-title">
+            <h2>Choose an AI Medical Module</h2>
+            <p>Select a module to perform an AI-based health assessment.</p>
+        </div>
 
-        <input type="file" name="image" required>
+        <div class="cards">
 
-        <br><br>
+            <div class="card">
+                <div class="icon">🫁</div>
+                <h3>Pneumonia Detection</h3>
+                <p>
+                    Analyze chest X-ray images using a deep learning model
+                    to identify patterns associated with pneumonia.
+                </p>
+                <a href="/pneumonia" class="btn">Open Module</a>
+            </div>
 
-        <button type="submit">
-            Predict
-        </button>
+            <div class="card">
+                <div class="icon">🧠</div>
+                <h3>Brain Tumor Detection</h3>
+                <p>
+                    Analyze brain MRI images using a CNN-based model
+                    for tumor classification.
+                </p>
+                <a href="/brain" class="btn">Open Module</a>
+            </div>
 
-    </form>
+            <div class="card">
+                <div class="icon">❤️</div>
+                <h3>Heart Disease Prediction</h3>
+                <p>
+                    Estimate heart disease risk using machine learning
+                    and commonly used clinical parameters.
+                </p>
+                <a href="/heart" class="btn">Open Module</a>
+            </div>
 
-    {% if prediction %}
+            <div class="card">
+                <div class="icon">🩸</div>
+                <h3>Diabetes Risk Prediction</h3>
+                <p>
+                    Estimate diabetes risk using machine learning
+                    and health-related parameters.
+                </p>
+               <a href="/diabetes" class="btn">Open Module</a>
+            </div>
 
-    <div class="result">
+        </div>
 
-        <h2>Prediction : {{ prediction }}</h2>
+        <div class="disclaimer">
+            <strong>⚠️ Medical Disclaimer:</strong>
+            This platform is developed for educational and academic purposes.
+            AI-generated results are estimates and should not be considered
+            medical diagnoses or a replacement for professional medical advice.
+        </div>
 
-        <h3>Confidence : {{ confidence }}%</h3>
+    </main>
 
-        <img src="{{ url_for('static', filename='uploads/' + image) }}" width="300">
-
-    </div>
-
-    {% endif %}
-
-</div>
+    <footer>
+        AI Medical Platform • Machine Learning Healthcare Project
+    </footer>
 
 </body>
 </html>
