@@ -1,13 +1,21 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras import layers, models
+import os
 
 # Dataset paths
-train_path = "dataset/train"
-val_path = "dataset/val"
+import os
 
-# Image preprocessing
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+train_dir = os.path.join(BASE_DIR, "dataset", "Training")
+test_dir = os.path.join(BASE_DIR, "dataset", "Testing")
+
+# Image size
+IMG_SIZE = (224, 224)
+BATCH_SIZE = 32
+
+# Data generators
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -15,56 +23,56 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True
 )
 
-val_datagen = ImageDataGenerator(rescale=1./255)
+test_datagen = ImageDataGenerator(rescale=1./255)
 
 train_data = train_datagen.flow_from_directory(
-    train_path,
-    target_size=(224, 224),
-    batch_size=32,
-    class_mode='binary'
+    train_dir,
+    target_size=IMG_SIZE,
+    batch_size=BATCH_SIZE,
+    class_mode="categorical"
 )
 
-val_data = val_datagen.flow_from_directory(
-    val_path,
-    target_size=(224, 224),
-    batch_size=32,
-    class_mode='binary'
+test_data = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=IMG_SIZE,
+    batch_size=BATCH_SIZE,
+    class_mode="categorical"
 )
 
 # CNN Model
-model = Sequential([
-    Conv2D(32, (3,3), activation='relu', input_shape=(224,224,3)),
-    MaxPooling2D(2,2),
+model = models.Sequential([
+    layers.Conv2D(32, (3,3), activation="relu", input_shape=(224,224,3)),
+    layers.MaxPooling2D(2,2),
 
-    Conv2D(64, (3,3), activation='relu'),
-    MaxPooling2D(2,2),
+    layers.Conv2D(64, (3,3), activation="relu"),
+    layers.MaxPooling2D(2,2),
 
-    Conv2D(128, (3,3), activation='relu'),
-    MaxPooling2D(2,2),
+    layers.Conv2D(128, (3,3), activation="relu"),
+    layers.MaxPooling2D(2,2),
 
-    Flatten(),
+    layers.Flatten(),
 
-    Dense(128, activation='relu'),
-    Dropout(0.5),
+    layers.Dense(128, activation="relu"),
+    layers.Dropout(0.5),
 
-    Dense(1, activation='sigmoid')
+    layers.Dense(4, activation="softmax")   # 4 classes
 ])
 
-# Compile model
 model.compile(
-    optimizer='adam',
-    loss='binary_crossentropy',
-    metrics=['accuracy']
+    optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=["accuracy"]
 )
 
-# Train model
+model.summary()
+
 history = model.fit(
     train_data,
-    validation_data=val_data,
+    validation_data=test_data,
     epochs=10
 )
 
-# Save model
-model.save("model/model.h5")
+os.makedirs("model", exist_ok=True)
+model.save("model/brain_model.keras")
 
-print("Model Saved Successfully!")
+print("Brain Tumor Model Saved Successfully!")
